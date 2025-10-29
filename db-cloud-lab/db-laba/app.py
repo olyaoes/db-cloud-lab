@@ -47,4 +47,5 @@ owner_has_station_controller = create_owner_has_station_controller(mysql)
 app.register_blueprint(owner_has_station_controller)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=1401, debug=True)
+

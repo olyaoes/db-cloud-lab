@@ -11,8 +11,10 @@ from controllers.panel_tilt_angle_controller import create_panel_tilt_angle_cont
 from controllers.energy_sales_controller import create_energy_sales_controller
 from controllers.owner_has_station_controller import create_owner_has_station_controller
 from flask_mysqldb import MySQL
+from flasgger import Swagger
 
 app = Flask(__name__)
+swagger = Swagger(app)
 app.config.from_object(Config)
 mysql = MySQL(app)
 

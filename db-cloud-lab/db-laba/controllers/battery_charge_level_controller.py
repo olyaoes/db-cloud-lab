@@ -11,15 +11,17 @@ def create_battery_charge_level_controller(mysql):
         'responses': {
             200: {
                 'description': 'List of battery charge levels',
-                'examples': {
-                    'application/json': [
-                        {
-                            'id': 1,
-                            'battery_id': 2,
-                            'charge_level': 85,
-                            'timestamp': '2025-10-01T12:00:00'
+                'schema': {
+                    'type': 'array',
+                    'items': {
+                        'type': 'object',
+                        'properties': {
+                            'id': {'type': 'integer'},
+                            'battery_id': {'type': 'integer'},
+                            'charge_level': {'type': 'integer'},
+                            'timestamp': {'type': 'string', 'format': 'date-time'}
                         }
-                    ]
+                    }
                 }
             }
         }
@@ -36,20 +38,23 @@ def create_battery_charge_level_controller(mysql):
                 'in': 'body',
                 'required': True,
                 'schema': {
-                    'example': {
-                        'battery_id': 1,
-                        'charge_level': 75,
-                        'timestamp': '2025-11-01T08:30:00'
-                    }
+                    'type': 'object',
+                    'properties': {
+                        'battery_id': {'type': 'integer'},
+                        'charge_level': {'type': 'integer'},
+                        'timestamp': {'type': 'string', 'format': 'date-time'}
+                    },
+                    'required': ['battery_id', 'charge_level', 'timestamp']
                 }
             }
         ],
         'responses': {
             201: {
                 'description': 'Charge level created',
-                'examples': {
-                    'application/json': {
-                        'message': 'Charge level created'
+                'schema': {
+                    'type': 'object',
+                    'properties': {
+                        'message': {'type': 'string'}
                     }
                 }
             }
@@ -81,20 +86,23 @@ def create_battery_charge_level_controller(mysql):
                 'in': 'body',
                 'required': True,
                 'schema': {
-                    'example': {
-                        'battery_id': 1,
-                        'charge_level': 80,
-                        'timestamp': '2025-11-02T09:00:00'
-                    }
+                    'type': 'object',
+                    'properties': {
+                        'battery_id': {'type': 'integer'},
+                        'charge_level': {'type': 'integer'},
+                        'timestamp': {'type': 'string', 'format': 'date-time'}
+                    },
+                    'required': ['battery_id', 'charge_level', 'timestamp']
                 }
             }
         ],
         'responses': {
             200: {
                 'description': 'Charge level updated',
-                'examples': {
-                    'application/json': {
-                        'message': 'Charge level updated'
+                'schema': {
+                    'type': 'object',
+                    'properties': {
+                        'message': {'type': 'string'}
                     }
                 }
             }
@@ -125,9 +133,10 @@ def create_battery_charge_level_controller(mysql):
         'responses': {
             200: {
                 'description': 'Charge level deleted',
-                'examples': {
-                    'application/json': {
-                        'message': 'Charge level deleted'
+                'schema': {
+                    'type': 'object',
+                    'properties': {
+                        'message': {'type': 'string'}
                     }
                 }
             }

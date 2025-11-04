@@ -20,7 +20,7 @@ jobs:
           username: azureuser
           key: ${{ secrets.AZURE_SSH_KEY }}
           source: "."
-          target: "/home/azureuser/proj/db-lab4"
+          target: "/home/azureuser/db-cloud-lab"
 
       - name: Restart Flask app
         uses: appleboy/ssh-action@v0.1.7
@@ -29,6 +29,6 @@ jobs:
           username: azureuser
           key: ${{ secrets.AZURE_SSH_KEY }}
           script: |
-            cd /home/azureuser/proj/db-lab4/Db-4-laba
+            cd /home/azureuser/db-cloud-lab/db-laba
             pkill -f app.py || true
             nohup python3 app.py > app.log 2>&1 &

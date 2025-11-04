@@ -16,6 +16,7 @@ from flasgger import Swagger
 app = Flask(__name__)
 swagger = Swagger(app)
 app.config.from_object(Config)
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 mysql = MySQL(app)
 
 owner_controller = create_owner_controller(mysql)

@@ -30,5 +30,6 @@ jobs:
           key: ${{ secrets.AZURE_SSH_KEY }}
           script: |
             cd /home/azureuser/db-cloud-lab/db-laba
-            pkill -f app.py || true
-            nohup python3 app.py > app.log 2>&1 &
+            pkill -f gunicorn || true
+            nohup gunicorn app:app --bind=0.0.0.0:1401 > app.log 2>&1 &
+

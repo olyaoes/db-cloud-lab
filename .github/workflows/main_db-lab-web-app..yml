@@ -1,4 +1,4 @@
-name: Deploy to Azure VM
+name: Deploy Flask app to Azure VM
 
 on:
   push:
@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Copy files to Azure VM
+      - name: Copy project files to Azure VM
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.AZURE_HOST }}
@@ -21,8 +21,9 @@ jobs:
           key: ${{ secrets.AZURE_SSH_KEY }}
           source: "."
           target: "/home/azureuser/db-cloud-lab"
+          overwrite: true
 
-      - name: Restart Flask app
+      - name: Restart Flask app on VM
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.AZURE_HOST }}
@@ -30,6 +31,8 @@ jobs:
           key: ${{ secrets.AZURE_SSH_KEY }}
           script: |
             cd /home/azureuser/db-cloud-lab/db-laba
+            echo "Stopping old app if running..."
             pkill -f gunicorn || true
-            nohup gunicorn app:app --bind=0.0.0.0:1401 > app.log 2>&1 &
-
+            echo "Starting Gunicorn..."
+            nohup gunicorn app:app --bind=0.0.0.0:1401 --daemon
+            echo "✅ Deployment complete!"

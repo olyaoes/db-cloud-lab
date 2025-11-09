@@ -34,5 +34,5 @@ jobs:
             echo "Stopping old app if running..."
             pkill -f gunicorn || true
             echo "Starting Gunicorn..."
-            nohup gunicorn app:app --bind=0.0.0.0:1401 --daemon
+            nohup gunicorn app:app --bind=0.0.0.0:1401 > /home/azureuser/app.log 2>&1 &
             echo "✅ Deployment complete!"

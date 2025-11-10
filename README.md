@@ -1,1 +1,1 @@
-Cloud Technologies Lab
+Cloud Technologies Labs

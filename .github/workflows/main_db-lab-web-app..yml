@@ -19,9 +19,10 @@ jobs:
           host: ${{ secrets.AZURE_HOST }}
           username: azureuser
           key: ${{ secrets.AZURE_SSH_KEY }}
-          source: "."
+          source: "./"
           target: "/home/azureuser/db-cloud-lab"
-          overwrite: true
+          overwrite: true          
+          rm: true                
 
       - name: Restart Flask app on VM
         uses: appleboy/ssh-action@v0.1.7
@@ -34,5 +35,5 @@ jobs:
             echo "Stopping old app if running..."
             pkill -f gunicorn || true
             echo "Starting Gunicorn..."
-            nohup gunicorn app:app --bind=0.0.0.0:1401 > /home/azureuser/app.log 2>&1 &
+            /home/azureuser/.local/bin/gunicorn app:app --bind=0.0.0.0:1401 --daemon
             echo "✅ Deployment complete!"

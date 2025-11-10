@@ -23,23 +23,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Login to Azure (OIDC)
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C88CFF2E1EFA451389732966AE83A5F7 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_11E2AA423EEF46EE8F87FD6390AC9F3A }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E15C5450E60343F2AF8F51A965833AC0 }}
-
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'web-app-lab'
+          app-name: 'web-app-lab'          
           slot-name: 'Production'
-          package: .
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
 
   deploy_vm:
     runs-on: ubuntu-latest
-    needs: deploy_webapp     
+    needs: deploy_webapp
+    continue-on-error: true
 
     steps:
       - name: Checkout repository
@@ -56,7 +50,7 @@ jobs:
           overwrite: true
           rm: true
 
-      - name: Restart Flask app on VM (gunicorn)
+      - name: Restart Flask app on VM
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.AZURE_HOST }}
@@ -68,4 +62,4 @@ jobs:
             pkill -f gunicorn || true
             echo "Starting Gunicorn..."
             /home/azureuser/.local/bin/gunicorn app:app --bind=0.0.0.0:1401 --daemon
-            echo "✅ VM deployment complete!"
+            echo "✅ Deployment complete!"

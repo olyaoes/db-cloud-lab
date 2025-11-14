@@ -7,14 +7,14 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-COPY requirements.txt /app/requirements.txt
+
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY db-laba/app.py /app/app.py
-
-COPY db-laba /app/db-laba
+COPY db-laba/ /app/db-laba/
 
 ENV PYTHONUNBUFFERED=1
 
 EXPOSE 1401
-CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:1401"]
+
+CMD ["gunicorn", "db-laba.app:app", "--bind", "0.0.0.0:1401"]

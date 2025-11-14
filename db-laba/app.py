@@ -48,6 +48,10 @@ app.register_blueprint(energy_sales_controller)
 owner_has_station_controller = create_owner_has_station_controller(mysql)
 app.register_blueprint(owner_has_station_controller)
 
+@app.route("/")
+def index():
+    return "API is running", 200
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=1401, debug=True)
 

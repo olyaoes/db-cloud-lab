@@ -18,5 +18,4 @@ COPY . .
 ENV PYTHONUNBUFFERED=1
 
 EXPOSE 1401
-CMD ["gunicorn", "db-laba.app:app", "--bind", "0.0.0.0:1401"]
-
+CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:1401"]

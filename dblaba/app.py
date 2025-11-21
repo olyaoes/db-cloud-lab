@@ -45,10 +45,5 @@ def index():
     return "API is running", 200
 
 
-# IMPORTANT:
-# Do not run flask server here — gunicorn handles it
-# This block is ignored inside Docker/Gunicorn, but is OK for local run
 if __name__ == "__main__":
-    import os
-    port = int(os.environ.get("PORT", 1401))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=1401)
